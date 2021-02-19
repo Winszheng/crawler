@@ -5,9 +5,10 @@ import (
 	"log"
 )
 
+// 引擎， 或者说，启动器
 // 每个Request就是一个种子
-// 虽然不直到为什么要叫做种子！
 func Run(seeds ...Request) {
+	// 维护一个任务队列，不断调用相应的解析器
 	var requests []Request
 	for _, r := range seeds {
 		requests = append(requests, r)
@@ -28,9 +29,6 @@ func Run(seeds ...Request) {
 
 		ParseResult := r.ParserFunc(body)
 		requests = append(requests, ParseResult.Requests...)   // 把切片打散拼接
-		for _, item := range ParseResult.Items {
-			log.Printf("Got item %v ", item)
-		}
 
 	}
 }

@@ -18,12 +18,20 @@ func ParseCityList(contents []byte) engine.ParseResult{
 	matches := re.FindAllSubmatch(contents, -1)
 
 	result := engine.ParseResult{}  // 初始化要返回的结果
+
+	// 为了省事，只爬10个城市
+	limit := 10
 	for _, m := range matches {
 		result.Items = append(result.Items, string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url:        string(m[1]),   // change []byte to string
-			ParserFunc: engine.NilParser,    // 实际上相应的parser还没写，暂时写成nil
+			ParserFunc: ParseCity,
 		})
+
+		limit--
+		if limit == 0 {
+			break
+		}
 	}
 	return result
 }

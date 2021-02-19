@@ -2,25 +2,46 @@ package parser
 
 import (
 	"fmt"
+	"github.com/PuerkitoBio/goquery"
+	"github.com/Winszheng/crowler/model"
 	"github.com/Winszheng/crowler/single/engine"
+	"math/rand"
 	"strings"
+	"time"
 )
-import "github.com/PuerkitoBio/goquery"
 
 
+// 个人主页具体信息
 func ParseProfile(contents []byte) engine.ParseResult {
-//	与正则表达式相比
-//	使用css选择器更适合具体的文档
+	time.Sleep(time.Millisecond*time.Duration(rand.Intn(100)))
+
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(string(contents)))
 	if err != nil {
-		panic(err)
+		return engine.ParseResult{}
 	}
-	// 内心独白
-	dom.Find(".m-des").Each(func(i int, selection *goquery.Selection) {
-		fmt.Println(selection.Text())
+	profile := model.Profile{}
+	dom.Find(".name").Each(func(i int, selection *goquery.Selection) {
+		profile.Nickname = selection.Text()
 	})
-	// 个人资料
-	// 兴趣爱好
-	// 择偶条件
-	return engine.ParseResult{} // 暂且返回一个空结构体
+	dom.Find(".content").Each(func(i int, selection *goquery.Selection) {
+		profile.Des = selection.Text()
+	})
+	dom.Find(".basicInfo-section>.tag").Each(func(i int, selection *goquery.Selection) {
+		profile.BasicInfo = append(profile.BasicInfo, selection.Text())
+	})
+	dom.Find(".detailInfo-section>.tag").Each(func(i int, selection *goquery.Selection) {
+		profile.Detail = append(profile.Detail, selection.Text())
+	})
+	dom.Find(".objectInfo-section>.tag").Each(func(i int, selection *goquery.Selection) {
+		profile.Selection = append(profile.Selection, selection.Text())
+	})
+
+
+	result := engine.ParseResult{
+		Requests: nil,
+		Items:    []interface{}{profile},
+	}
+
+	fmt.Println("got item user: ", profile.Nickname, "'s detail information: ", result.Items)
+	return result
 }

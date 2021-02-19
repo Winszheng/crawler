@@ -14,5 +14,5 @@ func TestParseProfile(t *testing.T) {
 
 	result := ParseProfile(contents)
 
-	fmt.Println("do not care:", result)
+	fmt.Println("result:\n", result)
 }
