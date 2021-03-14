@@ -8,10 +8,14 @@ import (
 )
 
 func main() {
+	itemsaver, err := persist.ItemSaver("dating_profile")
+	if err != nil {
+		panic(err) // itemSaver开不起来，干脆就不运行程序
+	}
 	e := &engine.ConcurrentEngine{
 		Scheduler:   &scheduler.QueuedScheduler{}, // 因为是指针接收者所以要取地址，见下面的报错
 		WorkerCount: 30,
-		ItemChan:    persist.ItemSaver(), // 如何存储爬到的数据
+		ItemChan:    itemsaver, // 如何存储爬到的数据
 	}
 	e.Run(engine.Request{
 		Url:       "https://www.zhenai.com/zhenghun",

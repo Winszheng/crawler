@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"github.com/Winszheng/crowler/model"
 	"log"
 )
 
@@ -8,7 +9,7 @@ import (
 type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
-	ItemChan    chan interface{}
+	ItemChan    chan Item
 }
 
 // 不希望一个接口有太多的方法，不希望传参任务太沉重
@@ -41,14 +42,21 @@ func (e *ConcurrentEngine) Run(seeds ...Request) { // ...表不定参数
 	for {
 		result := <-out
 		// 存储fetch的数据
+
 		for _, item := range result.Iterms {
-			go func() {
+			if _, ok := item.Playload.(model.Profile); !ok { // 只存用户详细信息作为item
+				break
+			}
+			go func(item Item) {
 				e.ItemChan <- item
-			}()
+			}(item)
 		}
 
 		// 发送获取的请求给workerChan
 		for _, request := range result.Requests { // (1)
+			if isDuplicated(request.Url) { // 如果这个url已经访问过
+				continue
+			}
 			e.Scheduler.Submit(request)
 		}
 	}
@@ -77,3 +85,14 @@ func createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
 // 当有worker完成之后，又没办法把result送给out
 // 于是形成了循环等待
 // 解决方法是破坏循环等待条件
+
+var visitedUrls = make(map[string]bool)
+
+// isDuplicated去重
+func isDuplicated(url string) bool {
+	if visitedUrls[url] {
+		return true
+	}
+	visitedUrls[url] = true
+	return false
+}

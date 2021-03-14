@@ -15,8 +15,9 @@ var nameRe = regexp.MustCompile(`<div class="name" data-v-44b88fba><span data-v-
 
 // 内心独白
 var contentRe = regexp.MustCompile(`<span data-v-37f6ec3b>内心独白</span></div> <div class="content" data-v-37f6ec3b><p data-v-37f6ec3b>([^<]+)</p>`)
+var urlRe = regexp.MustCompile(`http://m.zhenai.com/u/([\d]+)`)
 
-func ParseProfile(contents []byte) engine.ParseResult {
+func ParseProfile(contents []byte, url string) engine.ParseResult {
 
 	profile := model.Profile{}
 	if text := nameRe.FindSubmatch(contents); len(text) > 0 {
@@ -45,7 +46,13 @@ func ParseProfile(contents []byte) engine.ParseResult {
 	})
 	fmt.Println("get user info:", profile)
 	result := engine.ParseResult{
-		Iterms: []interface{}{profile}, // 没有新的请求
+		Iterms: []engine.Item{
+			{
+				Url:      url,
+				Id:       urlRe.FindStringSubmatch(url)[1],
+				Playload: profile,
+			},
+		}, // 没有新的请求
 	}
 	return result
 }

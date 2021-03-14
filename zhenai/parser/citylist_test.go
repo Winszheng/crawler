@@ -12,7 +12,7 @@ func TestParserCityList(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	result := ParserCityList(contents)
+	result := ParserCityList(contents, "")
 
 	const resultSize = 470
 	// const不能定义数组切片
@@ -32,7 +32,7 @@ func TestParserCityList(t *testing.T) {
 			t.Errorf("expect url \"%s\", but get url \"%s\"", expectedUrls[i], result.Requests[i].Url)
 		}
 
-		if result.Iterms[i].(string) != expectedCities[i] {
+		if result.Iterms[i].Playload != expectedCities[i] {
 			t.Errorf("expect city \"%s\", but get city \"%s\"", expectedCities[i], result.Iterms[i])
 		}
 	}

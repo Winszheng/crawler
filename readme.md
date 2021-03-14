@@ -1,3 +1,11 @@
-- 单任务版：获取所有城市第一页用户的详细信息。问题在于，只有一个goroutine，即先获取了470个城市的url，才能获取每个城市第一页用户的url，进而获取每个用户的信息。性能低下。
-- 多任务版：把engine和scheduler分离，用接口的形式组合到结构体，同时开多个worker，提高速度。
-- 分布式版：
+本爬虫爬取了珍爱网所有城市第一页用户的信息。信息存储在docker运行的elasticsearch。
+
+### Run
+
+用docker跑elasticsearch，版本号根据自己的docker进行设置：
+
+```
+docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.11.1
+```
+
+然后直接运行项目的main.go

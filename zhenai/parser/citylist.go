@@ -8,17 +8,20 @@ import (
 
 const cityListRe = `<a href="(http://www.zhenai.com/zhenghun/[a-z0-9]+)" data-v-1573aa7c>([^<]+)</a>`
 
-func ParserCityList(contents []byte) engine.ParseResult {
+func ParserCityList(contents []byte, _ string) engine.ParseResult {
 	re := regexp.MustCompile(cityListRe)
 	matches := re.FindAllSubmatch(contents, -1)
 
 	result := engine.ParseResult{}
 
 	for k, match := range matches {
-		if k >= 20 {
-			break // 规避反爬机制
+		if k > 40 {
+			break // 避免出发反爬
 		}
-		result.Iterms = append(result.Iterms, string(match[2]))
+
+		result.Iterms = append(result.Iterms, engine.Item{
+			Playload: match[2],
+		})
 		result.Requests = append(result.Requests, engine.Request{
 			Url:       string(match[1]),
 			ParseFunc: ParseCity, // 暂且

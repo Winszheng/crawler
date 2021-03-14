@@ -8,7 +8,7 @@ import (
 )
 
 // 为了规避反爬机制
-var rateLimiter = time.Tick(100 * time.Millisecond) // ==> 0.1s
+var rateLimiter = time.Tick(150 * time.Millisecond) //
 
 // Sleep是使用睡眠完成定时，结束后继续往下执行循环来实现定时任务。
 // Tick函数是使用channel阻塞当前协程，完成定时任务的执行

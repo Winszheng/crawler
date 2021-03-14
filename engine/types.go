@@ -4,12 +4,18 @@ package engine
 
 type Request struct {
 	Url       string
-	ParseFunc func([]byte) ParseResult
+	ParseFunc func([]byte, string) ParseResult
 }
 
 type ParseResult struct {
 	Requests []Request
-	Iterms   []interface{}
+	Iterms   []Item
+}
+
+type Item struct {
+	Url      string
+	Id       string
+	Playload interface{}
 }
 
 // NilParser is a palceholder
