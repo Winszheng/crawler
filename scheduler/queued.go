@@ -26,8 +26,6 @@ func (s *QueuedScheduler) ConfigureMasterWorkerChan(chan engine.Request) {
 	panic("implement me")
 }
 
-// 总控的，真正的goroutine
-// 为了方便，接收者用指针还是值，还是统一比较好
 func (s *QueuedScheduler) Run() {
 	s.workerChan = make(chan chan engine.Request)
 	s.requestChan = make(chan engine.Request)

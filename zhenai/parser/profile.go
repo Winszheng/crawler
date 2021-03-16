@@ -26,8 +26,6 @@ func ParseProfile(contents []byte, url string) engine.ParseResult {
 	if text := contentRe.FindSubmatch(contents); len(text) > 0 {
 		profile.Content = string(text[1])
 	}
-	// profile.Nickname = string(nameRe.FindSubmatch(contents)[1])
-	// profile.Content = string(contentRe.FindSubmatch(contents)[1])
 
 	// 个人资料和择偶条件不适合用re
 	dom, err := goquery.NewDocumentFromReader(bytes.NewReader(contents))

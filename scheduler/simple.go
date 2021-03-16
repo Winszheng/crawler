@@ -22,7 +22,6 @@ func (s *SimpleScheduler) Run() {
 
 func (s *SimpleScheduler) Submit(r engine.Request) {
 	// send request down to worker chan
-	// 被调用了很多次，每次都是不一样的request
 	go func() {
 		s.wokerChan <- r
 	}()

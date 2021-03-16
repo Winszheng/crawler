@@ -10,7 +10,7 @@ import (
 // 解析单个城市第一页的用户链接
 var (
 	userRe = regexp.MustCompile(`<a href="(http://album.zhenai.com/u/[0-9]+)" target="_blank">([^<]+)</a>`)
-	// xx城市百姓/军人/公务员...征婚
+	// to get:xx城市百姓/军人/公务员...征婚
 	cityUrlRe = regexp.MustCompile(`href="(http://www.zhenai.com/zhenghun/[^/]+/[a-z]+)">([^<]+)</a>`)
 )
 

@@ -24,7 +24,6 @@ func TestSave(t *testing.T) {
 
 	const index = "dating_test"
 	client, err := elastic.NewClient(
-		// 这是用来维护集群的，因为项目的集群不在本机，而在docker，所以设置成false
 		elastic.SetSniff(false),
 	)
 	if err != nil {
@@ -35,8 +34,6 @@ func TestSave(t *testing.T) {
 		panic(err)
 	}
 
-	// todo: try to start up elasticsearch here using docker go client
-	// 避免因为没开elasticsearch，测试挂了
 	resp, err := client.Get().
 		Index("dating_test").Id(expexted.Id).Do(context.Background())
 	if err != nil {

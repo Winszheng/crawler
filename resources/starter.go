@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	http.Handle("/", http.FileServer(http.Dir("resources/view")))
 	http.Handle("/search", controller.CreateSearchResultHandler(
 		"resources/list.html"))
 	err := http.ListenAndServe(":8888", nil)

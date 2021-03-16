@@ -5,8 +5,7 @@ import (
 	"testing"
 )
 
-// 输出结果复杂，不方便直接测全部
-// 那测一部分吧
+// 选取部分做测试
 func TestParserCityList(t *testing.T) {
 	contents, err := ioutil.ReadFile("citylist_test_data.html")
 	if err != nil {

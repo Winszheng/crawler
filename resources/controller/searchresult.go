@@ -1,22 +1,24 @@
 package controller
 
 import (
-	"fmt"
+	"context"
+	"github.com/Winszheng/crowler/engine"
 	"github.com/Winszheng/crowler/resources/model"
 	"github.com/Winszheng/crowler/resources/view"
 	"github.com/olivere/elastic/v7"
 	"net/http"
+	"reflect"
 	"strconv"
 	"strings"
 )
 
-// SearchResultHandler从elastic获取数据给view
+// SearchResultHandler从elastic从client获取数据给view
 type SearchResultHandler struct {
 	view   view.SearchResultView
 	client *elastic.Client
 }
 
-// 给文件名才能
+// CreateSearchResultHandler配置相应的template和连接elasticsearch
 func CreateSearchResultHandler(template string) SearchResultHandler {
 	client, err := elastic.NewClient(
 		elastic.SetSniff(false))
@@ -33,15 +35,36 @@ func CreateSearchResultHandler(template string) SearchResultHandler {
 // localhost:8888/search?q=男 已购房&from=20
 func (h SearchResultHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	q := strings.TrimSpace(req.FormValue("q"))
-	from, err := strconv.Atoi(req.FormValue("from")) // 分页
+	from, err := strconv.Atoi(req.FormValue("from")) // 分页，从第from条record开始
 	if err != nil {                                  // 出错或用户乱输入
 		from = 0
 	}
 
 	var page model.SearchResult
-	page = getSearchResult(q, from)
+	page, err = h.getSearchResult(q, from) // get data
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
 	err = h.view.Render(w, page)
 	if err != nil {
-		http.Error()
+		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
+}
+
+func (h SearchResultHandler) getSearchResult(q string, from int) (model.SearchResult, error) {
+	var result model.SearchResult
+
+	resp, err := h.client.Search("dating_profile").
+		Query(elastic.NewQueryStringQuery(q)).
+		From(from).
+		Do(context.Background())
+	if err != nil {
+		return result, err
+	}
+
+	result.Hits = int(resp.TotalHits()) // 命中了几条记录
+	result.Start = from
+	result.Items = resp.Each(reflect.TypeOf(engine.Item{}))
+
+	return result, err
 }

@@ -15,9 +15,6 @@ func ParserCityList(contents []byte, _ string) engine.ParseResult {
 	result := engine.ParseResult{}
 
 	for k, match := range matches {
-		if k > 40 {
-			break // 避免出发反爬
-		}
 
 		result.Iterms = append(result.Iterms, engine.Item{
 			Playload: match[2],

@@ -24,7 +24,7 @@ type ReadyNotifier interface {
 	WorkerReady(chan Request)
 }
 
-// 我们希望engine的工作是很快的
+// 希望engine的工作是很快的
 func (e *ConcurrentEngine) Run(seeds ...Request) { // ...表不定参数
 	out := make(chan ParseResult)
 	e.Scheduler.Run()
@@ -42,7 +42,6 @@ func (e *ConcurrentEngine) Run(seeds ...Request) { // ...表不定参数
 	for {
 		result := <-out
 		// 存储fetch的数据
-
 		for _, item := range result.Iterms {
 			if _, ok := item.Playload.(model.Profile); !ok { // 只存用户详细信息作为item
 				break
@@ -66,7 +65,6 @@ func (e *ConcurrentEngine) Run(seeds ...Request) { // ...表不定参数
 func createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
 	go func() { // 这里in和out形成了循环等待
 		for {
-			// tell scheduler i am ready
 			ready.WorkerReady(in)
 			request := <-in
 			log.Println("start worker")

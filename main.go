@@ -28,5 +28,3 @@ func main() {
 // 所以无论是e：= engine.ConcurrentEngine{...}还是e：= &engine.ConcurrentEngine{...}都是对的
 // golang会根据接收者定义帮你调整
 // 如果一开始接收者是值，也就不用考虑寻址的问题了。
-
-// 2.需要考虑到一个问题叫方法集
