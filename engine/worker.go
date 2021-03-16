@@ -1,7 +1,7 @@
 package engine
 
 import (
-	"github.com/Winszheng/crowler/fetcher"
+	"github.com/Winszheng/crawler/fetcher"
 	"log"
 )
 

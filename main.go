@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/Winszheng/crowler/engine"
-	"github.com/Winszheng/crowler/persist"
-	"github.com/Winszheng/crowler/scheduler"
-	"github.com/Winszheng/crowler/zhenai/parser"
+	"github.com/Winszheng/crawler/engine"
+	"github.com/Winszheng/crawler/persist"
+	"github.com/Winszheng/crawler/scheduler"
+	"github.com/Winszheng/crawler/zhenai/parser"
 )
 
 func main() {

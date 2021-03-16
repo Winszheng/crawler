@@ -1,7 +1,7 @@
 package engine
 
 import (
-	"github.com/Winszheng/crowler/model"
+	"github.com/Winszheng/crawler/model"
 	"log"
 )
 

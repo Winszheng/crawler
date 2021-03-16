@@ -1,6 +1,6 @@
 package scheduler
 
-import "github.com/Winszheng/crowler/engine"
+import "github.com/Winszheng/crawler/engine"
 
 // 希望simple和queued的代码能有比较好的通用性
 type SimpleScheduler struct {

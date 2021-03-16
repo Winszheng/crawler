@@ -1,6 +1,6 @@
 package scheduler
 
-import "github.com/Winszheng/crowler/engine"
+import "github.com/Winszheng/crawler/engine"
 
 // 队列调度器
 // request和worker都是队列

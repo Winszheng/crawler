@@ -2,7 +2,7 @@ package parser
 
 import (
 	"fmt"
-	"github.com/Winszheng/crowler/engine"
+	"github.com/Winszheng/crawler/engine"
 	"regexp"
 )
 

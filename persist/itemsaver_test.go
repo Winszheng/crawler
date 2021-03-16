@@ -3,8 +3,8 @@ package persist
 import (
 	"context"
 	"encoding/json"
-	"github.com/Winszheng/crowler/engine"
-	"github.com/Winszheng/crowler/model"
+	"github.com/Winszheng/crawler/engine"
+	"github.com/Winszheng/crawler/model"
 	"github.com/olivere/elastic/v7"
 	"testing"
 )

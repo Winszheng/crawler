@@ -4,13 +4,13 @@
 
 ### Run
 
-用docker跑elasticsearch，版本号根据自己的docker进行设置：
+用docker跑elasticsearch，版本号需要根据自己的docker进行修改：
 
 ```
 docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.11.1
 ```
 
-然后直接运行项目的main.go
+然后直接运行项目的main.go以及resources中的main.go。
 
 ### 结果
 

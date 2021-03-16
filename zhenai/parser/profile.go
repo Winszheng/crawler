@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
-	"github.com/Winszheng/crowler/engine"
-	"github.com/Winszheng/crowler/model"
+	"github.com/Winszheng/crawler/engine"
+	"github.com/Winszheng/crawler/model"
 	"log"
 	"regexp"
 )
