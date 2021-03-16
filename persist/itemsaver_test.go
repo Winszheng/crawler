@@ -29,7 +29,7 @@ func TestSave(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	err = save(client, expexted, index)
+	err = Save(client, expexted, index)
 	if err != nil {
 		panic(err)
 	}

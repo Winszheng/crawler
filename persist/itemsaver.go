@@ -26,7 +26,7 @@ func ItemSaver(index string) (chan engine.Item, error) {
 			log.Printf("Item Saver: got item #%d: %v", itemCount, item)
 			itemCount++
 
-			if err := save(client, item, index); err != nil { // 重试/放弃，这里选abandon
+			if err := Save(client, item, index); err != nil { // 重试/放弃，这里选abandon
 				log.Printf("Item Saver: error saving item %v: %v", item, err)
 			}
 		}
@@ -35,7 +35,7 @@ func ItemSaver(index string) (chan engine.Item, error) {
 }
 
 // 只存用户的个人信息
-func save(client *elastic.Client, item engine.Item, index string) error {
+func Save(client *elastic.Client, item engine.Item, index string) error {
 	if item.Id == "" {
 		return errors.New("触发反爬机制，停止爬取")
 	}
