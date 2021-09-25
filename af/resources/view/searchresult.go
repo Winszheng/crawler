@@ -1,7 +1,7 @@
 package view
 
 import (
-	"github.com/Winszheng/crawler/single/resources/model"
+	"github.com/Winszheng/crawler/af/resources/model"
 	"html/template"
 	"io"
 )
@@ -14,9 +14,10 @@ type SearchResultView struct {
 func CreateSearchResultView(filename string) SearchResultView {
 	return SearchResultView{template: template.Must(
 		template.ParseFiles(filename))}
+	// 把对应文件解析成*Template, 把template.ParseFiles和template.Must一起使用，是为了出错直接panic，省事
 }
 
-// Render用模板和数据渲染出前端
+// Render把data渲染到模板w
 func (s SearchResultView) Render(w io.Writer, data model.SearchResult) error {
 	return s.template.Execute(w, data)
 }
